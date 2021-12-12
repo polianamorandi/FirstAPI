@@ -1,0 +1,1 @@
+export { default as CreateUserTypeService } from './CreateUserType'
