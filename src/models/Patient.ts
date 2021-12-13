@@ -8,17 +8,17 @@ class Patient {
   course: string;
   period: string;
   lastAppointment: Date;
-  // entryYear
-  // dataDeNascimeto
-  // endereço
+  entryYear: Date;
+  currentYear: Date;
+  dataDeNascimento: Date;
+  phoneNumber: string;
+  //endereço
   // numero
   // bairro
   // cidadeAtual
   // Cidade Natal
   // estado civil
   // identidade de genero
-  // telefone
-  // email
 
   constructor(name: string, rgm: string, email: string, course: string, period: string) {
     this.id = uuid()
