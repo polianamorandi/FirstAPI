@@ -7,7 +7,7 @@ const userRouter = Router()
 
 userRouter.get('/', async (_,resp) => {
   const userRepository = getCustomRepository(UserRepository)
-  const users = await userRepository.getAll
+  const users = await userRepository.getAll()
   resp.json(users)
 })
 
