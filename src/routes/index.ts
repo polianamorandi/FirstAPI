@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import patientRouter from './patient'
-import userRouter from './user'
+import userRouter from './user.router'
 import userTypeRouter from './userType.router'
 
 const routes = Router()
