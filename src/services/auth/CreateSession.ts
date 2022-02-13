@@ -1,6 +1,9 @@
 import { getRepository } from 'typeorm'
 import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
+
+import AppError from '../../errors/AppError'
+import JWT_CONFIG from '../../config/auth'
 import User from '../../models/User'
 
 interface Request {
@@ -21,20 +24,20 @@ class CreateSession {
       where: { email }
     })
 
-    if(!user) throw new Error("Usuário ou senha incorretos.")
+    if(!user) throw new AppError("Usuário ou senha incorretos.", 401)
 
     const validPassword = await compare(password, user.password || '')
 
-    if(!validPassword) throw new Error("Usuário ou senha incorretos.")
+    if(!validPassword) throw new AppError("Usuário ou senha incorretos.", 401)
 
     const token = sign(
       {
         type: user.type
       },
-      'dev_hash',
+      JWT_CONFIG.secret,
       {
         subject: user.id,
-        expiresIn: '1d',
+        expiresIn: JWT_CONFIG.expiresIn,
       }
     )
 

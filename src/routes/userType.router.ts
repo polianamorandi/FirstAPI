@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { getRepository } from 'typeorm'
+
 import UserType from '../models/UserType'
 import { CreateUserTypeService } from '../services/userType'
 
@@ -19,15 +20,11 @@ userTypeRouter.get('/:id', async (req, resp) => {
 })
 
 userTypeRouter.post('/', async (req, resp) => {
-  try {
-    const { name } = req.body
+  const { name } = req.body
 
-    const createUserType = new CreateUserTypeService()
-    const userType = await createUserType.execute({ name })
-    resp.json(userType)
-  } catch (error: any) {
-    return resp.status(400).json({ message: error.message })
-  }
+  const createUserType = new CreateUserTypeService()
+  const userType = await createUserType.execute({ name })
+  resp.json(userType)
 })
 
 export default userTypeRouter

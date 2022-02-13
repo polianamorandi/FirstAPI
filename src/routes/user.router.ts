@@ -1,9 +1,13 @@
 import { Router } from 'express'
 import { getCustomRepository } from 'typeorm'
+
+import checkAuth from '../middlewares/checkAuth'
 import UserRepository from '../repositories/UserRepository'
 import { CreateUserService } from '../services/user'
 
 const userRouter = Router()
+
+userRouter.use(checkAuth)
 
 userRouter.get('/', async (_,resp) => {
   const userRepository = getCustomRepository(UserRepository)
@@ -18,17 +22,13 @@ userRouter.get('/:id', async (req,resp) => {
 })
 
 userRouter.post('/', async (req,resp) => {
-  try {
-    const { name, email, password, type } = req.body
+  const { name, email, password, type } = req.body
 
-    const createUser = new CreateUserService()
-    const user = await createUser.execute({ name, email, password, type })
-    delete user.password
-    delete user.deleted_at
+  const createUser = new CreateUserService()
+  const user = await createUser.execute({ name, email, password, type })
+  delete user.password
+  delete user.deleted_at
     resp.json(user)
-  } catch (error: any) {
-    return resp.status(400).json({ message: error.message })
-  }
 })
 
 export default userRouter

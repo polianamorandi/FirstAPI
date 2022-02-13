@@ -1,5 +1,7 @@
 import { getRepository } from 'typeorm'
 import { hash } from 'bcryptjs'
+
+import AppError from '../../errors/AppError'
 import User from '../../models/User'
 
 interface Request {
@@ -18,7 +20,7 @@ class CreateUser {
       where: { email }
     })
 
-    if(hasUser) throw new Error("Email já cadastrado")
+    if(hasUser) throw new AppError("Email já cadastrado", 401)
 
     const hashedPassword = await hash(password, 8)
     const user = userRepository.create({ name, email, password: hashedPassword, type })
