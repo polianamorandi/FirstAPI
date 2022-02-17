@@ -12,6 +12,7 @@ interface TokenPayload {
 }
 
 export default function checkAuth(req: Request, resp: Response, next: NextFunction): void {
+  if (req.method === 'OPTIONS') return next()
   const authHeader = req.headers.authorization
 
   if (!authHeader) throw new AppError('Não autenticado', 401)
